@@ -360,14 +360,14 @@ bool GSWndWGL::CompositorEnabled()
 	// fullscreen mode.
 	GSVector4i surface = GetClientRect();
 	GSVector4i window = GetWindowRect();
-	return (surface != window).alltrue();
+	return !(surface == window).alltrue();
 }
 
 void GSWndWGL::Flip()
 {
 	// The compositor manages its own kind of Vsync/double-buffering. You need to wait the availabitiliy of the buffer
 	// before the swap to avoid stuttering.
-	if (CompositorEnabled())
+	if (CompositorEnabled() && m_vsync)
 		DwmFlush();
 
 	SwapBuffers(m_NativeDisplay);
